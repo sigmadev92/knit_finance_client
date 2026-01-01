@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark,.dark &));
+
+ul {
+  list-style: none;
+}
+
+section {
+  height: 100%;
+  padding-top: 2rem;
+}
+
+@utility center {
+  @apply flex justify-center items-center;
+}
+
+@utility theme {
+  @apply bg-white text-black dark:bg-black dark:text-white;
+}
