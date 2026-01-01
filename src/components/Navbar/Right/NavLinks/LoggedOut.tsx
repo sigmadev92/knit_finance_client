@@ -5,7 +5,7 @@ const LoggedOut = () => {
     <ul className="flex gap-4 items-center">
       {[
         { label: "Home", to: "/" },
-        { label: "Contact", to: "/contact" },
+        { label: "Login", to: "/out/login" },
         { label: "About", to: "/about" },
       ].map(({ label, to }, idx) => (
         <li key={idx}>

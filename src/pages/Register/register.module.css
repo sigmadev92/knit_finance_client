@@ -1,0 +1,38 @@
+.leftUl {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-left: 1rem;
+}
+
+.leftUl > li {
+  display: flex;
+  gap: 0.5rem;
+  cursor: pointer;
+  width: 80%;
+}
+
+.leftUl > li:hover {
+  transform: scale(1.1);
+  background-color: white;
+  color: black;
+}
+
+.animatedBg {
+  background: linear-gradient(120deg, #7f5af0, #3dd6d0, #ff6f91, #ffd93d);
+  background-size: 300% 300%;
+  animation: gradientFlow 10s ease infinite;
+  min-height: 100vh;
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
