@@ -5,3 +5,8 @@ export type User = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type UserContextType = {
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+};

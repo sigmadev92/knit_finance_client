@@ -35,39 +35,24 @@ const Register = () => {
       toast.error("Invalid Full Name");
       return;
     }
-    const fn = names[0];
-    let mn = "",
-      ln = "";
-
-    if (names.length === 2) {
-      ln = names[1];
-    } else {
-      mn = names[1];
-      ln = names[2];
-    }
+    console.log(usersURL);
 
     try {
-      const response = await fetch(`${usersURL}/signup`, {
+      const response = await fetch(`${usersURL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          fullName: {
-            firstName: fn,
-            middleName: mn,
-            lastName: ln,
-          },
+          fullName,
           email,
           password,
         }),
       });
-
-      const data = await response.json();
-      if (data.success) {
-        toast.success("Registered successfully");
-        navigate("/out/login");
-      } else {
-        toast.error(data.message);
+      if (!response.ok) {
+        throw new Error(`Error While creating user ${response.status}`);
       }
+
+      toast.success("Registered successfully");
+      navigate("/out/login");
     } catch (error: unknown) {
       console.log(error);
       toast.error((error as Error).message);
