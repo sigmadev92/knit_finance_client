@@ -7,7 +7,7 @@ const Left = ({
   setTab: (e: number) => void;
 }) => {
   return (
-    <div className="w-[15%] p-4 box-border border-light text-[12px]">
+    <div className="hidden md:block md:w-[15%] p-4 box-border border-light text-[12px]">
       <h3 className="text-center font-bold text-xl mb-4">Dashboard</h3>
       <ul className="list-none flex flex-col gap-3">
         {dbLefttabs.map((ele) => (

@@ -4,9 +4,12 @@ import CustomTextArea from "../../../../../components/ui/TextArea";
 import CustomButton from "../../../../../components/ui/CustomButton";
 import toast from "react-hot-toast";
 import { taskURL } from "../../../../../constants/urls/backend";
+import type { Task } from "../../../../../types/task";
+import { useTask } from "../../../../../contextAPI/contexts/tasks";
 // import type { Task } from "../../../../../types/task";
 
 const Create = () => {
+  const { setTasks } = useTask();
   const [taskForm, setForm] = useState<{ title: string; description: string }>({
     title: "",
     description: "",
@@ -28,7 +31,8 @@ const Create = () => {
       if (!response.ok) {
         throw new Error(`Failed to create task ${response.status}`);
       }
-
+      const { newTask }: { newTask: Task } = await response.json();
+      setTasks((prev) => [...prev, newTask]);
       toast.success("Task added successfully");
     } catch (error) {
       console.log(error);

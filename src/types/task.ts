@@ -11,6 +11,15 @@ export type Task = {
   description: string;
   attempts: number;
   status: TaskStatus;
+  userId: string;
+  adminId: string;
   createdAt: string;
   updatedAt: string;
+};
+
+export type TasksContextType = {
+  tasks: Task[];
+  fetched: boolean;
+  setFetched: React.Dispatch<React.SetStateAction<boolean>>;
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 };

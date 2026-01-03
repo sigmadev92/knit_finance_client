@@ -4,12 +4,15 @@ import App from "./App";
 import CustomThemeProvider from "./contextAPI/providers/Theme";
 import CustomUserProvider from "./contextAPI/providers/User";
 import { Toaster } from "react-hot-toast";
+import CustomTaskProvider from "./contextAPI/providers/Tasks";
 createRoot(document.getElementById("root")!).render(
   <>
     <Toaster />
     <CustomThemeProvider>
       <CustomUserProvider>
-        <App />
+        <CustomTaskProvider>
+          <App />
+        </CustomTaskProvider>
       </CustomUserProvider>
     </CustomThemeProvider>
   </>
