@@ -15,6 +15,7 @@ const TextInput = ({
   readOnly,
   min,
   max,
+  required,
 }: {
   placeholder: string;
   inputType: string;
@@ -33,6 +34,7 @@ const TextInput = ({
   min?: number;
   max?: number;
   variant?: Variant;
+  required?: boolean;
 }) => {
   const regular = "relative flex flex-col gap-2 w-full";
   const [it, setIt] = useState<boolean>(inputType === "password");
@@ -59,6 +61,7 @@ const TextInput = ({
         minLength={min}
         maxLength={max}
         value={value}
+        required={required}
         className={`border-light input-custom ${style?.input}`}
         onChange={(e) => handleChange(e)}
       />

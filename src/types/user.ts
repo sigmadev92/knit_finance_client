@@ -1,8 +1,10 @@
+export type UserRole = "admin" | "user";
 export type User = {
   _id: string;
   fullName: string;
   email: string;
   createdAt: string;
+  role: UserRole;
   updatedAt: string;
 };
 
