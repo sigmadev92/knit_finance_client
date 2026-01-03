@@ -4,6 +4,9 @@ export type User = {
   fullName: string;
   email: string;
   createdAt: string;
+  tasksAssigned?: number;
+  tasksSentForTest?: number;
+  onVacation?: boolean;
   role: UserRole;
   updatedAt: string;
 };

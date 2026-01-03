@@ -49,7 +49,7 @@ const Tasks = () => {
   }, []);
 
   return (
-    <div className="relative">
+    <div className="relative h-full">
       <h3 className="font-bold mb-4">Tasks</h3>
       {openedTask && <TaskLayer taskObj={openedTask} close={setOpenedTask} />}
       <div className="overflow-x-auto pb-4">

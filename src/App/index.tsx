@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import CustomRouter from "./Router";
 import { useTheme } from "../contextAPI/contexts/theme";
 import { useUser } from "../contextAPI/contexts/user";
-import toast from "react-hot-toast";
 import { usersURL } from "../constants/urls/backend";
 import type { User } from "../types/user";
 const App = () => {
@@ -35,7 +34,6 @@ const App = () => {
       setUser(data.user);
     } catch (error) {
       console.log(error);
-      toast.error((error as Error).message);
     }
   };
   useEffect(() => {

@@ -12,7 +12,7 @@ export type Task = {
   attempts: number;
   status: TaskStatus;
   userId: string;
-  adminId: string;
+  adminId: string | null;
   createdAt: string;
   updatedAt: string;
 };

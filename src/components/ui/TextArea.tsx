@@ -9,6 +9,7 @@ const CustomTextArea = ({
   name,
   placeholder,
   rows,
+  readonly,
 }: {
   name: string;
   placeholder: string;
@@ -18,6 +19,7 @@ const CustomTextArea = ({
   handleChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   value: string;
   rows?: number;
+  readonly?: boolean;
 }) => {
   return (
     <div className={`flex justify-between ${styles?.outer || ""}`}>
@@ -30,6 +32,7 @@ const CustomTextArea = ({
         className={styles?.textArea}
         placeholder={placeholder}
         name={name}
+        readOnly={readonly || false}
         id={name}
         value={value}
         onChange={handleChange}

@@ -5,7 +5,8 @@ import type React from "react";
 import toast from "react-hot-toast";
 import { taskURL, testingURL } from "../../constants/urls/backend";
 import { useTask } from "../../contextAPI/contexts/tasks";
-import type { User } from "../../types/user";
+import { useUser } from "../../contextAPI/contexts/user";
+import Edit from "./Right/body/Tasks/Edit";
 
 const TaskLayer = ({
   taskObj,
@@ -14,8 +15,9 @@ const TaskLayer = ({
   taskObj: Task;
   close: React.Dispatch<React.SetStateAction<Task | null>>;
 }) => {
-  const { _id, title, description, status } = taskObj;
+  const { _id, status } = taskObj;
   const { setTasks } = useTask();
+  const { user, setUser } = useUser();
   const changeStatusBtn = async (newStatus: TaskStatus) => {
     try {
       const response = await fetch(`${taskURL}/status/user/${_id}`, {
@@ -44,31 +46,75 @@ const TaskLayer = ({
 
   const sendForTesting = async () => {
     try {
-      const response = await fetch(`${testingURL}/`, {
+      const response = await fetch(`${testingURL}/${_id}`, {
         headers: {
           "Content-Type": "application/json",
         },
         method: "POST",
         credentials: "include",
-        body: JSON.stringify({ taskId: _id }),
       });
+
       if (!response.ok) {
-        throw new Error(`Error in Sending for testing ${response.status}`);
+        const data: { message: string } = await response.json();
+
+        throw new Error(`${data.message} ${response.status}`);
       }
 
-      const { admin }: { admin: User } = await response.json();
+      const {
+        message,
+        newTest,
+      }: {
+        message: string;
+        newTest: {
+          adminId: string | null;
+          _id: string;
+          status: "Assigned" | "Queued";
+        };
+      } = await response.json();
+
+      toast.success(message);
+
+      setUser((prev) => {
+        if (prev?.role === "user") {
+          return {
+            ...prev,
+            tasksSentForTest: prev.tasksSentForTest! + 1,
+          };
+        } else return prev;
+      });
+
+      let adminId = null;
+      if (newTest.status === "Assigned") {
+        adminId = newTest.adminId;
+      }
 
       setTasks((prev) =>
         prev.map((ele) =>
-          ele._id === _id
-            ? { ...taskObj, status: "Testing", adminId: admin._id }
-            : ele
+          ele._id === _id ? { ...taskObj, status: "Testing", adminId } : ele
         )
       );
-      close({ ...taskObj, status: "Testing", adminId: admin._id });
+      close({ ...taskObj, status: "Testing", adminId });
     } catch (error) {
       console.log(error);
       toast.error((error as Error).message);
+    }
+  };
+
+  const deleteTaskBtn = async () => {
+    try {
+      const response = await fetch(`${taskURL}/${_id}`, {
+        credentials: "include",
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to delete Task ${response.status}`);
+      }
+      setTasks((prev) => prev.filter((ele) => ele._id != _id));
+      close(null);
+      toast.success("Task deleted Successfully");
+    } catch (error) {
+      toast.error((error as Error).message);
+      console.log(error);
     }
   };
 
@@ -80,63 +126,84 @@ const TaskLayer = ({
           <XIcon size={14} />
         </CustomButton>
       </div>
+      <div className="md:flex">
+        <Edit
+          openedTask={taskObj}
+          canEdit={status === "In Progress"}
+          setOpenedTask={close}
+        />
+        <div className="md:w-[40%] flex flex-col gap-4 border-light p-2">
+          <div>
+            <p className="font-bold">
+              Current Status{" "}
+              <span className="bg-red-300 px-2 rounded text-[12px]">
+                {status}
+              </span>
+            </p>
 
-      <div className="md:flex p-3">
-        <div className="md:w-[60%]">
-          <h3 className="text-xl font-bold">{title}</h3>
+            {status === "Not Started" && (
+              <div className="flex gap-4 w-full">
+                <CustomButton
+                  className="bg-green-500 "
+                  variant="regular"
+                  onClick={() => changeStatusBtn("In Progress")}
+                >
+                  <span>Start Now</span>
+                </CustomButton>
+                <CustomButton variant="regular-confirm">
+                  <span>Mark as Completed</span>
+                </CustomButton>
+              </div>
+            )}
+            {status === "In Progress" && (
+              <div className="flex gap-4 w-full">
+                <CustomButton
+                  variant="regular-confirm"
+                  onClick={() => changeStatusBtn("Completed")}
+                >
+                  <span>Mark as Completed</span>
+                </CustomButton>
+              </div>
+            )}
+            {status === "Completed" && (
+              <div className="flex gap-4 w-full">
+                {user!.tasksSentForTest! < 5 && (
+                  <CustomButton
+                    className="bg-green-500 "
+                    variant="regular"
+                    onClick={() => sendForTesting()}
+                  >
+                    <span>Send for Testing</span>
+                  </CustomButton>
+                )}
+              </div>
+            )}
+            {status === "Failed" && (
+              <div className="flex gap-4 w-full">
+                <CustomButton className="bg-green-500 " variant="regular">
+                  <span>Restart</span>
+                </CustomButton>
+              </div>
+            )}
+          </div>
+          <div>
+            {status === "In Progress" && (
+              <div>
+                <span>You can Now Edit the Task</span>
+              </div>
+            )}
 
-          <p>{description}</p>
-        </div>
-        <div className="md:w-[40%] border-light p-2">
-          <p className="font-bold">
-            Current Status{" "}
-            <span className="bg-red-300 px-2 rounded text-[12px]">
-              {status}
-            </span>
-          </p>
+            {status === "Testing" && <p>Cannot delete Task</p>}
 
-          {status === "Not Started" && (
-            <div className="flex gap-4 w-full">
+            {status !== "Testing" && (
               <CustomButton
-                className="bg-green-500 "
-                variant="regular"
-                onClick={() => changeStatusBtn("In Progress")}
+                variant="regular-danger"
+                onClick={() => deleteTaskBtn()}
               >
-                <span>Start Now</span>
+                <span>Delete Task</span>
               </CustomButton>
-              <CustomButton variant="regular-confirm">
-                <span>Mark as Completed</span>
-              </CustomButton>
-            </div>
-          )}
-          {status === "In Progress" && (
-            <div className="flex gap-4 w-full">
-              <CustomButton
-                variant="regular-confirm"
-                onClick={() => changeStatusBtn("Completed")}
-              >
-                <span>Mark as Completed</span>
-              </CustomButton>
-            </div>
-          )}
-          {status === "Completed" && (
-            <div className="flex gap-4 w-full">
-              <CustomButton
-                className="bg-green-500 "
-                variant="regular"
-                onClick={() => sendForTesting()}
-              >
-                <span>Send for Testing</span>
-              </CustomButton>
-            </div>
-          )}
-          {status === "Failed" && (
-            <div className="flex gap-4 w-full">
-              <CustomButton className="bg-green-500 " variant="regular">
-                <span>Restart</span>
-              </CustomButton>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
