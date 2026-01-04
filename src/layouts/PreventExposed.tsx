@@ -6,9 +6,6 @@ const PreventExposed = () => {
   const { user } = useUser();
   if (!user) return <Outlet />;
 
-  if (user.role === "admin") {
-    return <Navigate to={"/in/dashboard/admin"} />;
-  }
   return <Navigate to={"/in/dashboard"} />;
 };
 

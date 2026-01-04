@@ -6,6 +6,8 @@ export type User = {
   createdAt: string;
   tasksAssigned?: number;
   tasksSentForTest?: number;
+  totalTasksAssigned?: number;
+  totalTasksSentForTest?: number;
   onVacation?: boolean;
   role: UserRole;
   updatedAt: string;

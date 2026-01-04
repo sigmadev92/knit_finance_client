@@ -43,7 +43,10 @@ const Tasks = () => {
     setFetched(true);
   };
   useEffect(() => {
-    if (fetched) return;
+    if (fetched) {
+      console.log("running user db");
+      return;
+    }
 
     fetchTasks();
   }, []);

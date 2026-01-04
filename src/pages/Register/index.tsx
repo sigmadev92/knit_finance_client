@@ -21,6 +21,7 @@ const Register = () => {
     email: "",
     password: "",
   });
+  const [role, setRole] = useState<"admin" | "user">("user");
   const { fullName, email, password } = formData;
   const navigate = useNavigate();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +46,7 @@ const Register = () => {
           fullName,
           email,
           password,
+          role,
         }),
       });
       if (!response.ok) {
@@ -121,6 +123,15 @@ const Register = () => {
               icon={<LockIcon size={15} />}
               handleChange={handleChange}
             />
+            <select
+              name="role"
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                setRole(e.target.value as "admin" | "user")
+              }
+            >
+              <option value={"admin"}>Admin</option>
+              <option value={"user"}>User</option>
+            </select>
             <CustomButton
               className="text-[14px]"
               variant="submit"

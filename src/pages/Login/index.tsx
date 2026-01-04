@@ -44,9 +44,8 @@ const Login = () => {
       const data: { user: User } = await response.json();
       setUser(data.user);
       toast.success("Logged in successfully");
-      if (data.user.role === "admin") {
-        navigate("/in/dashboard/admin");
-      } else navigate("/in/dashboard");
+
+      navigate("/in/dashboard");
     } catch (error: unknown) {
       console.log(error);
       toast.error((error as Error).message);

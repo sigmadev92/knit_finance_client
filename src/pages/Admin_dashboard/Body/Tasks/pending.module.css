@@ -1,0 +1,19 @@
+.tableStyle {
+  border: 1px solid;
+  width: 90%;
+  margin: auto;
+}
+
+.tableStyle th {
+  padding: 0.3rem;
+}
+
+.tableStyle > tbody > tr:hover {
+  background-color: beige;
+  cursor: pointer;
+}
+
+.tableStyle td {
+  text-align: center;
+  padding: 0.3rem 0;
+}

@@ -18,6 +18,9 @@ section {
 @utility theme {
   @apply bg-white text-black dark:bg-black dark:text-white;
 }
+@utility theme-rev {
+  @apply bg-black text-white dark:bg-white dark:text-black;
+}
 @utility border-light {
   @apply rounded border-[0.5px] border-blue-200 dark:border-blue-950;
 }

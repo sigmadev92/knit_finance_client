@@ -150,9 +150,6 @@ const TaskLayer = ({
                 >
                   <span>Start Now</span>
                 </CustomButton>
-                <CustomButton variant="regular-confirm">
-                  <span>Mark as Completed</span>
-                </CustomButton>
               </div>
             )}
             {status === "In Progress" && (

@@ -31,6 +31,7 @@ const Create = () => {
       if (!response.ok) {
         throw new Error(`Failed to create task ${response.status}`);
       }
+      setForm({ title: "", description: "" });
       const { newTask }: { newTask: Task } = await response.json();
       setTasks((prev) => [...prev, newTask]);
       toast.success("Task added successfully");
@@ -74,7 +75,7 @@ const Create = () => {
           name="Description"
         />
         <CustomButton btnType="submit" variant="regular-confirm">
-          <span>Submit</span>
+          <span>Create</span>
         </CustomButton>
       </form>
     </div>
