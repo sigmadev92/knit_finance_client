@@ -12,7 +12,7 @@ export type Task = {
   attempts: number;
   status: TaskStatus;
   userId: string;
-  adminId: string | null;
+  adminId: null | string;
   createdAt: string;
   updatedAt: string;
 };
@@ -22,4 +22,9 @@ export type TasksContextType = {
   fetched: boolean;
   setFetched: React.Dispatch<React.SetStateAction<boolean>>;
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+};
+
+export type CurrentTasksContextType = {
+  currentTask: Task | null;
+  setCurrentTask: React.Dispatch<React.SetStateAction<Task | null>>;
 };

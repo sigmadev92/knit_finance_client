@@ -4,36 +4,31 @@ import CustomTextArea from "../../../../../components/ui/TextArea";
 import CustomButton from "../../../../../components/ui/CustomButton";
 import toast from "react-hot-toast";
 import { taskURL } from "../../../../../constants/urls/backend";
-import type { Task } from "../../../../../types/task";
 import { useTask } from "../../../../../contextAPI/contexts/tasks";
+import { useCurrentTask } from "../../../../../contextAPI/contexts/currentTask";
 
-const Edit = ({
-  openedTask,
-  canEdit,
-  setOpenedTask,
-}: {
-  openedTask: Task;
-  canEdit: boolean;
-  setOpenedTask: React.Dispatch<React.SetStateAction<Task | null>>;
-}) => {
+const Edit = () => {
+  const { currentTask, setCurrentTask } = useCurrentTask();
   const { setTasks } = useTask();
   const [taskForm, setForm] = useState<{ title: string; description: string }>({
-    title: openedTask.title,
-    description: openedTask.description,
+    title: currentTask!.title,
+    description: currentTask!.description,
   });
+  if (!currentTask) return;
+
   const { title, description } = taskForm;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const changes: { title?: string; description?: string } = {};
-    if (title !== openedTask.title) {
+    if (title !== currentTask.title) {
       changes.title = title;
     }
-    if (title !== openedTask.description) {
+    if (title !== currentTask.description) {
       changes.description = description;
     }
     try {
-      const response = await fetch(`${taskURL}/${openedTask._id}`, {
+      const response = await fetch(`${taskURL}/${currentTask._id}`, {
         method: "PUT",
         credentials: "include",
         headers: {
@@ -47,10 +42,10 @@ const Edit = ({
       }
       setTasks((prev) =>
         prev.map((ele) =>
-          ele._id === openedTask._id ? { ...openedTask, ...changes } : ele
+          ele._id === currentTask._id ? { ...currentTask, ...changes } : ele
         )
       );
-      setOpenedTask({ ...openedTask, ...changes });
+      setCurrentTask({ ...currentTask, ...changes });
       toast.success("Task Edited successfully");
     } catch (error) {
       console.log(error);
@@ -58,7 +53,7 @@ const Edit = ({
     }
   };
   return (
-    <div className="shadow shadow-pink-300 p-3 rounded mt-4 md:w-[60%]">
+    <div className="shadow shadow-pink-300 p-3 rounded md:w-[40%] center">
       <form className="w-[300px] flex flex-col gap-6" onSubmit={handleSubmit}>
         <TextInput
           value={title}
@@ -71,7 +66,7 @@ const Edit = ({
           inputType="text"
           min={10}
           required={true}
-          readOnly={!canEdit}
+          readOnly={currentTask.status !== "In Progress"}
           max={50}
           handleChange={(e: ChangeEvent<HTMLInputElement>) =>
             setForm((prev) => ({ ...prev, title: e.target.value }))
@@ -89,7 +84,7 @@ const Edit = ({
           }
           rows={4}
           label="Description"
-          readonly={!canEdit}
+          readonly={currentTask.status !== "In Progress"}
           placeholder="Enter description of task"
           name="Description"
         />
@@ -97,7 +92,8 @@ const Edit = ({
           btnType="submit"
           variant="regular-confirm"
           disabled={
-            title === openedTask.title && description === openedTask.description
+            title === currentTask.title &&
+            description === currentTask.description
           }
         >
           <span>Edit</span>

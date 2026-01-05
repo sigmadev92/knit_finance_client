@@ -6,11 +6,12 @@ import { taskURL } from "../../../../../constants/urls/backend";
 import type { Task } from "../../../../../types/task";
 // import All from "./All";
 import TaskBox from "../../../../../components/ui/TaskBox";
-import TaskLayer from "../../../TaskLayer";
+import TaskLayer from "./TaskLayer";
+import { useCurrentTask } from "../../../../../contextAPI/contexts/currentTask";
 
 const Tasks = () => {
   const { fetched, setTasks, tasks, setFetched } = useTask();
-  const [openedTask, setOpenedTask] = useState<Task | null>(null);
+  const { currentTask, setCurrentTask } = useCurrentTask();
   const tasksTab = [
     { tab: 0, name: "Create New" },
     { tab: 1, name: "All" },
@@ -54,7 +55,7 @@ const Tasks = () => {
   return (
     <div className="relative h-full">
       <h3 className="font-bold mb-4">Tasks</h3>
-      {openedTask && <TaskLayer taskObj={openedTask} close={setOpenedTask} />}
+      {currentTask && <TaskLayer />}
       <div className="overflow-x-auto pb-4">
         <ul className="flex ">
           {tasksTab.map((ele) => (
@@ -80,7 +81,7 @@ const Tasks = () => {
               <ul className="flex flex-wrap gap-4">
                 {tasks.map((ele) => (
                   <li key={ele._id}>
-                    <TaskBox taskData={ele} openTaskView={setOpenedTask} />
+                    <TaskBox taskData={ele} openTaskView={setCurrentTask} />
                   </li>
                 ))}
               </ul>
@@ -97,7 +98,7 @@ const Tasks = () => {
                   .filter((t) => t.status === tasksTab[tab].name)
                   .map((ele) => (
                     <li key={ele._id}>
-                      <TaskBox taskData={ele} openTaskView={setOpenedTask} />
+                      <TaskBox taskData={ele} openTaskView={setCurrentTask} />
                     </li>
                   ))}
               </ul>

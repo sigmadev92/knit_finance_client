@@ -43,38 +43,39 @@ const TextInput = ({
     _: "",
   };
   return (
-    <div
-      className={`${maping[variant || "_"]} ${
-        inputType === "password" ? "relative" : ""
-      } ${style?.size || ""}`}
-    >
+    <div className={`${maping[variant || "_"]} ${style?.size || ""}`}>
       <label htmlFor={name} className={style?.label || "text-xl"}>
         {" "}
         {label}
       </label>
-      <input
-        type={inputType === "password" ? (it ? "password" : "text") : inputType}
-        placeholder={placeholder}
-        name={name}
-        readOnly={readOnly}
-        id={name}
-        minLength={min}
-        maxLength={max}
-        value={value}
-        required={required}
-        className={`border-light input-custom ${style?.input}`}
-        onChange={(e) => handleChange(e)}
-      />
       <div className="absolute top-2 right-3">{icon}</div>
-      {inputType === "password" && (
-        <CustomButton
-          className="absolute right-2 top-10"
-          variant="rounded-0"
-          onClick={() => setIt((prev) => !prev)}
-        >
-          {it ? <EyeIcon size={16} /> : <EyeOffIcon size={16} />}
-        </CustomButton>
-      )}
+      <div className="relative">
+        <input
+          type={
+            inputType === "password" ? (it ? "password" : "text") : inputType
+          }
+          placeholder={placeholder}
+          name={name}
+          readOnly={readOnly}
+          id={name}
+          minLength={min}
+          maxLength={max}
+          value={value}
+          required={required}
+          className={`border-light input-custom w-full ${style?.input}`}
+          onChange={(e) => handleChange(e)}
+        />
+
+        {inputType === "password" && (
+          <CustomButton
+            className="absolute right-2 top-[50%] translate-y-[-50%]"
+            variant="rounded-0"
+            onClick={() => setIt((prev) => !prev)}
+          >
+            {it ? <EyeIcon size={16} /> : <EyeOffIcon size={16} />}
+          </CustomButton>
+        )}
+      </div>
     </div>
   );
 };
