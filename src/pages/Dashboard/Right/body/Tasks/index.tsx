@@ -3,11 +3,12 @@ import Create from "./Create";
 import { useTask } from "../../../../../contextAPI/contexts/tasks";
 import toast from "react-hot-toast";
 import { taskURL } from "../../../../../constants/urls/backend";
-import type { Task } from "../../../../../types/task";
+import type { Task, TaskStatus } from "../../../../../types/task";
 // import All from "./All";
 import TaskBox from "../../../../../components/ui/TaskBox";
 import TaskLayer from "./TaskLayer";
 import { useCurrentTask } from "../../../../../contextAPI/contexts/currentTask";
+import { statusColorMap } from "../../../../../constants/objects/statusColor";
 
 const Tasks = () => {
   const { fetched, setTasks, tasks, setFetched } = useTask();
@@ -53,16 +54,18 @@ const Tasks = () => {
   }, []);
 
   return (
-    <div className="relative h-full">
+    <div className="relative h-full text-[12px]">
       <h3 className="font-bold mb-4">Tasks</h3>
       {currentTask && <TaskLayer />}
       <div className="overflow-x-auto pb-4">
-        <ul className="flex ">
+        <ul className="flex text-white">
           {tasksTab.map((ele) => (
             <li
               key={ele.tab}
-              className={` hover:bg-gray-400 cursor-pointer text-[12px] p-4 py-2 ${
-                tab === ele.tab ? "bg-white text-black" : "bg-blue-400"
+              className={` hover:bg-gray-400 cursor-pointer p-4 py-2 ${
+                tab === ele.tab
+                  ? "dark:bg-white dark:text-black font-bold bg-black "
+                  : "bg-blue-400"
               }`}
               onClick={() => {
                 setTab(ele.tab);
@@ -105,10 +108,14 @@ const Tasks = () => {
             ) : (
               <div>
                 No Task in{" "}
-                <span className="px-3 bg-red-400 rounded">
+                <span
+                  className={`p-1 ${
+                    statusColorMap[tasksTab[tab].name as TaskStatus]
+                  } `}
+                >
                   {tasksTab[tab].name}
                 </span>{" "}
-                State
+                Phase
               </div>
             )}
           </div>

@@ -53,7 +53,7 @@ const LoggedIn = () => {
 
         {isClicked && (
           <div className="rounded theme p-4 absolute right-0 top-6 flex flex-col gap-2 border">
-            <span className="bg-blue-400 px-2 rounded">{user?.role}</span>
+            <span className="font-bold capitalize">{user?.role} Account</span>
             <h3>{user!.fullName}</h3>
             <h3>{user!.email}</h3>
             <CustomButton variant="regular-dark" onClick={logoutUser}>

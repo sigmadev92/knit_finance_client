@@ -127,7 +127,7 @@ const TaskLayer = () => {
   return (
     <div className="absolute z-4 top-0 w-full h-full theme">
       <TaskLayerTop taskId={currentTask!._id} />
-      <div className="md:flex pt-4">
+      <div className="md:flex p-4">
         <TaskLayerBodyLeft
           changeStatusBtn={changeStatusBtn}
           sendForTesting={sendForTesting}

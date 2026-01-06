@@ -1,4 +1,5 @@
 import CustomButton from "../../../../../../components/ui/CustomButton";
+import { statusColorMap } from "../../../../../../constants/objects/statusColor";
 import { useCurrentTask } from "../../../../../../contextAPI/contexts/currentTask";
 import { useUser } from "../../../../../../contextAPI/contexts/user";
 import type { TaskStatus } from "../../../../../../types/task";
@@ -20,7 +21,9 @@ const TaskLayerBodyLeft = ({
       <div>
         <p className="font-bold flex gap-4 items-center">
           Current Status{" "}
-          <span className="bg-[#0a2967] text-white p-2 text-[12px]">
+          <span
+            className={`${statusColorMap[status]} text-white p-2 text-[12px]`}
+          >
             {status}
           </span>
         </p>
