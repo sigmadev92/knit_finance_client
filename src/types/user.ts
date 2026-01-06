@@ -11,6 +11,7 @@ export type User = {
   onVacation?: boolean;
   role: UserRole;
   updatedAt: string;
+  isVerified: boolean;
 };
 
 export type UserContextType = {

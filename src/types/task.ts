@@ -12,7 +12,7 @@ export type Task = {
   attempts: number;
   status: TaskStatus;
   userId: string;
-  adminId: null | string;
+  adminId: null | { _id: string; fullName: string; email: string };
   createdAt: string;
   updatedAt: string;
 };
@@ -27,4 +27,16 @@ export type TasksContextType = {
 export type CurrentTasksContextType = {
   currentTask: Task | null;
   setCurrentTask: React.Dispatch<React.SetStateAction<Task | null>>;
+};
+
+export type Submission = {
+  _id: string;
+  testId: string;
+  taskId: string;
+  adminId: string;
+  submittedOn: string;
+  verifiedOn: string;
+  isFailed: boolean;
+  userId: string;
+  isDeleted: boolean;
 };

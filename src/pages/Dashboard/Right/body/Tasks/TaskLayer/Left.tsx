@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import CustomButton from "../../../../../../components/ui/CustomButton";
 import { statusColorMap } from "../../../../../../constants/objects/statusColor";
 import { useCurrentTask } from "../../../../../../contextAPI/contexts/currentTask";
@@ -77,7 +78,24 @@ const TaskLayerBodyLeft = ({
           </div>
         )}
 
-        {status === "Testing" && <p>Cannot delete Task</p>}
+        {status === "Testing" && (
+          <div>
+            <p>Cannot delete Task</p>
+            {currentTask?.adminId && (
+              <div>
+                Task Assigned to{" "}
+                <NavLink
+                  to={`/profile/${currentTask.adminId._id}`}
+                  className="font-bold"
+                >
+                  {currentTask.adminId.fullName}
+                </NavLink>
+                {"       "}
+                for Verification.
+              </div>
+            )}
+          </div>
+        )}
 
         {status !== "Testing" && (
           <CustomButton

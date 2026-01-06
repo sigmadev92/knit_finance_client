@@ -1,15 +1,17 @@
 .tableStyle {
   border: 1px solid;
-  width: 90%;
+  width: 100%;
+  min-width: 900px;
   margin: auto;
 }
 
 .tableStyle th {
   padding: 0.3rem;
+  flex-shrink: 0;
 }
 
 .tableStyle > tbody > tr:hover {
-  background-color: beige;
+  background-color: rgba(245, 245, 220, 0.527);
   cursor: pointer;
 }
 

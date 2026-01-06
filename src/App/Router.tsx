@@ -12,6 +12,7 @@ import ProtectedRoute from "../layouts/ProtectedRoute";
 import PreventExposed from "../layouts/PreventExposed";
 import { useUser } from "../contextAPI/contexts/user";
 import AdminDashboard from "../pages/Admin_dashboard";
+import PublicProfile from "../pages/profile";
 
 const CustomRouter = () => {
   const { user } = useUser();
@@ -22,6 +23,7 @@ const CustomRouter = () => {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Home /> },
+        { path: "profile/:userId", element: <PublicProfile /> },
         {
           path: "in",
           element: <ProtectedRoute />,

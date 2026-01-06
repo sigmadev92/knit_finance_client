@@ -7,6 +7,7 @@ import Edit from "../../../../../../pages/Dashboard/Right/body/Tasks/Edit";
 import TaskLayerTop from "./Top";
 import TaskLayerBodyLeft from "./Left";
 import { useCurrentTask } from "../../../../../../contextAPI/contexts/currentTask";
+import Submissions from "./Submissions";
 
 const TaskLayer = () => {
   const { currentTask, setCurrentTask } = useCurrentTask();
@@ -70,6 +71,8 @@ const TaskLayer = () => {
       }: {
         message: string;
         newTest: {
+          fullName: string;
+          email: string;
           adminId: string | null;
           _id: string;
           status: "Assigned" | "Queued";
@@ -88,9 +91,10 @@ const TaskLayer = () => {
       });
 
       let adminId = null;
-      if (newTest.status === "Assigned") {
-        adminId = newTest.adminId;
-      }
+      adminId =
+        newTest.status === "Assigned"
+          ? { _id: adminId!, fullName: newTest.fullName, email: newTest.email }
+          : null;
 
       setTasks((prev) =>
         prev.map((ele) =>
@@ -135,6 +139,7 @@ const TaskLayer = () => {
         />
         <Edit />
       </div>
+      {currentTask!.attempts > 0 && <Submissions taskId={currentTask!._id} />}
     </div>
   );
 };

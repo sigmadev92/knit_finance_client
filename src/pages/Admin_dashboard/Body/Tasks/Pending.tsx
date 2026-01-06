@@ -83,45 +83,47 @@ const Pending = () => {
       </div>
 
       {tasks.length > 0 ? (
-        <table className={styles.tableStyle}>
-          <thead className="bg-blue-300">
-            <tr>
-              <th>Task ID</th>
-              <th>User Id</th>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Created On</th>
-              <th>Attempts</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks.map((ele) => (
-              <tr key={ele._id}>
-                <td>{ele._id}</td>
-                <td>{ele.userId}</td>
-                <td>{ele.title.slice(0, 20)}...</td>
-                <td>{ele.description.slice(0, 20)}...</td>
-                <td>{new Date(ele.createdAt).toDateString()}</td>
-                <td>{ele.attempts}</td>
-                <td className="flex gap-4 items-center justify-center">
-                  <CustomButton
-                    variant="regular-confirm"
-                    onClick={() => actionTaskBtn(ele._id, "Approved")}
-                  >
-                    <span>Approve</span>
-                  </CustomButton>
-                  <CustomButton
-                    variant="regular-danger"
-                    onClick={() => actionTaskBtn(ele._id, "Failed")}
-                  >
-                    <span>Reject</span>
-                  </CustomButton>
-                </td>
+        <div className="overflow-x-auto">
+          <table className={styles.tableStyle}>
+            <thead className="bg-blue-400">
+              <tr>
+                <th>Task ID</th>
+                <th>User Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Created On</th>
+                <th>Attempts</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {tasks.map((ele) => (
+                <tr key={ele._id}>
+                  <td>{ele._id}</td>
+                  <td>{ele.userId}</td>
+                  <td>{ele.title.slice(0, 20)}...</td>
+                  <td>{ele.description.slice(0, 20)}...</td>
+                  <td>{new Date(ele.createdAt).toDateString()}</td>
+                  <td>{ele.attempts}</td>
+                  <td className="flex gap-4 items-center justify-center">
+                    <CustomButton
+                      variant="regular-confirm"
+                      onClick={() => actionTaskBtn(ele._id, "Approved")}
+                    >
+                      <span>Approve</span>
+                    </CustomButton>
+                    <CustomButton
+                      variant="regular-danger"
+                      onClick={() => actionTaskBtn(ele._id, "Failed")}
+                    >
+                      <span>Reject</span>
+                    </CustomButton>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : (
         <div className="h-[90%] center">
           <p>No Pending Tasks</p>
